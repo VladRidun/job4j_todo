@@ -6,12 +6,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static java.lang.Boolean.TRUE;
 
 @Repository
 @AllArgsConstructor
