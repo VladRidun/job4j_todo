@@ -105,7 +105,7 @@ public class SimpleTaskStore implements TaskStore {
         try {
             session.beginTransaction();
             optional = session.createQuery(
-                            "FROM Task  WHERE id = :fId", Task.class)
+                            "FROM Task WHERE id = :fId", Task.class)
                     .setParameter("fId", taskId).uniqueResultOptional();
             session.getTransaction().commit();
             return optional;
@@ -124,10 +124,9 @@ public class SimpleTaskStore implements TaskStore {
      */
     public List<Task> findAllByDone(boolean b) {
         Session session = sf.openSession();
-        List<Task> taskList = null;
         try {
             session.beginTransaction();
-            taskList = session.createQuery(
+            List<Task> taskList = session.createQuery(
                             "from Task where done = :fDone", Task.class)
                     .setParameter("fDone", b)
                     .list();
