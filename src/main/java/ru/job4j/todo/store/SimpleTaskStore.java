@@ -1,19 +1,17 @@
 package ru.job4j.todo.store;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 public class SimpleTaskStore implements TaskStore {
-    private final SessionFactory sf;
+    private final CrudRepository crudRepository;
 
     /**
      * Сохранить в базе.
@@ -22,16 +20,7 @@ public class SimpleTaskStore implements TaskStore {
      * @return задача с id.
      */
     public Task create(Task task) {
-        Session session = sf.openSession();
-        try {
-            session.beginTransaction();
-            session.save(task);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
+        crudRepository.run(session -> session.persist(task));
         return task;
     }
 
@@ -41,16 +30,7 @@ public class SimpleTaskStore implements TaskStore {
      * @param task задача.
      */
     public void update(Task task) {
-        Session session = sf.openSession();
-        try {
-            session.beginTransaction();
-            session.update(task);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
+        crudRepository.run(session -> session.merge(task));
     }
 
     /**
@@ -59,19 +39,10 @@ public class SimpleTaskStore implements TaskStore {
      * @param taskId ID
      */
     public void delete(int taskId) {
-        Session session = sf.openSession();
-        try {
-            session.beginTransaction();
-            session.createQuery(
-                            "DELETE Task WHERE id = :fId")
-                    .setParameter("fId", taskId)
-                    .executeUpdate();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
+        crudRepository.run(
+                "delete from Task where id = :fId",
+                Map.of("fId", taskId)
+        );
     }
 
     /**
@@ -80,18 +51,7 @@ public class SimpleTaskStore implements TaskStore {
      * @return список задач.
      */
     public List<Task> findAllOrderById() {
-        Session session = sf.openSession();
-        List<Task> tasksList = new ArrayList<>();
-        try {
-            session.beginTransaction();
-            tasksList = session.createQuery("FROM Task ORDER BY id").list();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return tasksList;
+        return crudRepository.query("FROM Task ORDER BY id", Task.class);
     }
 
     /**
@@ -100,21 +60,9 @@ public class SimpleTaskStore implements TaskStore {
      * @return задачу.
      */
     public Optional<Task> findById(int taskId) {
-        Session session = sf.openSession();
-        Optional<Task> optional;
-        try {
-            session.beginTransaction();
-            optional = session.createQuery(
-                            "FROM Task WHERE id = :fId", Task.class)
-                    .setParameter("fId", taskId).uniqueResultOptional();
-            session.getTransaction().commit();
-            return optional;
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return Optional.empty();
+        return crudRepository.optional("FROM Task WHERE id = :fId", Task.class,
+                Map.of("fId", taskId)
+        );
     }
 
     /**
@@ -123,20 +71,9 @@ public class SimpleTaskStore implements TaskStore {
      * @return список задач.
      */
     public List<Task> findAllByDone(boolean b) {
-        Session session = sf.openSession();
-        try {
-            session.beginTransaction();
-            List<Task> taskList = session.createQuery(
-                            "from Task where done = :fDone", Task.class)
-                    .setParameter("fDone", b)
-                    .list();
-            session.getTransaction().commit();
-            return taskList;
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return null;
+        return crudRepository.query(
+                "from Task where done = :fDone", Task.class,
+                Map.of("fDone", b)
+        );
     }
 }
