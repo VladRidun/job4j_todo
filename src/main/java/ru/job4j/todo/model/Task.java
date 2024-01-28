@@ -2,6 +2,7 @@ package ru.job4j.todo.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Include
     private int id;
     private String title;
     private String description;
