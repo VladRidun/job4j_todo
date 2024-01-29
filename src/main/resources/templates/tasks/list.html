@@ -27,6 +27,7 @@
                 <tr>
                     <th class="col-1">#</th>
                     <th class="col-3">Название</th>
+                    <th class="col-3">Кто создал</th>
                     <th class="col-3">Дата создания</th>
                     <th class="col-3">Выполнено</th>
                 </tr>
@@ -36,6 +37,7 @@
                     <td><span th:text="${task.id}"></span></td>
                     <td><a style="color: Blue; text-decoration: none;" th:text="${task.title}"
                            th:href="@{/tasks/{id}(id=${task.id})}"></span></a></td>
+                    <td><span th:text="${task.user.name}"></span></td>
                     <td><span th:text="${task.created}"></span></td>
                     <td><span th:if="${task.done}"><i class="bi bi-check-square"></i></span>
                         <span th:if="${!task.done}"><i class="bi bi-square"></i></span>
