@@ -3,7 +3,6 @@ package ru.job4j.todo.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
-
 import javax.persistence.*;
 
 @Entity

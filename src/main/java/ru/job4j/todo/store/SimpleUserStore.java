@@ -20,14 +20,8 @@ public class SimpleUserStore implements UserStore {
 
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) {
-        try {
             return  crudRepository.optional(
                     "FROM User WHERE login = :fLogin AND password = :fPassword", User.class,
-                    Map.of("fLogin", login, "fPassword", password)
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
+                    Map.of("fLogin", login, "fPassword", password));
     }
 }
