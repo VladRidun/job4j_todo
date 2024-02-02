@@ -1,10 +1,12 @@
 package ru.job4j.todo.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,14 +16,12 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/tasks") /* Работать с фильмами будем по URI/tasks/***/
 public class TaskController {
 
     private final TaskService taskService;
-
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
+    private final PriorityService priorityService;
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id, HttpServletRequest request) {
@@ -47,7 +47,8 @@ public class TaskController {
     }
 
     @GetMapping("/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        model.addAttribute("priorities", priorityService.findAll());
         return "tasks/create";
     }
 
@@ -70,7 +71,6 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-
     @GetMapping("/completed")
     public String getPageTasksIsDone(Model model) {
         model.addAttribute("tasks", taskService.findAllByDone(TRUE));
@@ -90,5 +90,4 @@ public class TaskController {
         taskService.update(task);
         return "redirect:/tasks/completed";
     }
-
 }
