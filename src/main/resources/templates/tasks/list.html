@@ -40,7 +40,7 @@
                     <td><a style="color: Blue; text-decoration: none;" th:text="${task.title}"
                            th:href="@{/tasks/{id}(id=${task.id})}"></span></a></td>
                     <td><span th:text="${task.user.name}"></span></td>
-                    <td><span th:text="${task.created}"></span></td>
+                    <td><span th:text="${#temporals.format(task.created, 'HH:mm dd-MM-yyyy')}"></span></td>
                     <td><span th:text="${task.priority.name}"></span></td>
                     <td><span th:text="${task.categories}"></span></td>
                     <td><span th:if="${task.done}"><i class="bi bi-check-square"></i></span>

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.User;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -23,5 +23,10 @@ public class SimpleUserStore implements UserStore {
             return  crudRepository.optional(
                     "FROM User WHERE login = :fLogin AND password = :fPassword", User.class,
                     Map.of("fLogin", login, "fPassword", password));
+    }
+
+    @Override
+    public Collection<TimeZone> getTimeZones() {
+        return Arrays.stream(TimeZone.getAvailableIDs()).map(TimeZone::getTimeZone).collect(Collectors.toList());
     }
 }

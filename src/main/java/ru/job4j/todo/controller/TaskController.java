@@ -17,6 +17,7 @@ import java.util.List;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static ru.job4j.todo.utility.TimeZoneWrapper.timeZoneWrap;
 
 @Controller
 @AllArgsConstructor
@@ -37,8 +38,9 @@ public class TaskController {
     }
 
     @GetMapping()
-    public String getAll(Model model) {
-        model.addAttribute("tasks", taskService.findAllOrderById());
+    public String getAll(Model model, HttpSession session) {
+        var user = (User) session.getAttribute("user");
+        model.addAttribute("tasks", timeZoneWrap(user, taskService.findAllOrderById()));
         return "tasks/list";
     }
 
@@ -83,14 +85,16 @@ public class TaskController {
     }
 
     @GetMapping("/completed")
-    public String getPageTasksIsDone(Model model) {
-        model.addAttribute("tasks", taskService.findAllByDone(TRUE));
+    public String getPageTasksIsDone(Model model, HttpSession session) {
+        var user = (User) session.getAttribute("user");
+        model.addAttribute("tasks", timeZoneWrap(user, taskService.findAllByDone(TRUE)));
         return "tasks/completed";
     }
 
     @GetMapping("/unfulfilled")
-    public String getPageTasksNotDone(Model model) {
-        model.addAttribute("tasks", taskService.findAllByDone(FALSE));
+    public String getPageTasksNotDone(Model model, HttpSession session) {
+        var user = (User) session.getAttribute("user");
+        model.addAttribute("tasks", timeZoneWrap(user, taskService.findAllByDone(FALSE)));
         return "tasks/unfulfilled";
     }
 

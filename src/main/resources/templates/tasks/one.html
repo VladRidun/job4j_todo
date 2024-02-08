@@ -35,7 +35,7 @@
             <td><span th:text="${task.id}"></span></td>
             <td><span th:text="${task.title}"></span></td>
             <td><span th:text="${task.description}"></span></td>
-            <td><span th:text="${task.created}"></span></td>
+            <td><span th:text="${#temporals.format(task.created, 'HH:mm dd-MM-yyyy')}"></span></td>
             <td><span th:if="${task.done}"><i class="bi bi-check-square"></i></span>
                 <span th:if="${!task.done}"><i class="bi bi-square"></i></span>
             </td>

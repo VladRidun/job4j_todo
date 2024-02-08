@@ -9,6 +9,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Task {
     private int id;
     private String title;
     private String description;
-    private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.MINUTES);
     private boolean done;
 
     @ManyToOne
