@@ -6,11 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.util.List;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -22,6 +25,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final PriorityService priorityService;
+    private final CategoryService categoryService;
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id, HttpServletRequest request) {
@@ -39,9 +43,10 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, HttpSession session) {
+    public String create(@ModelAttribute Task task, HttpSession session,  @RequestParam List<Integer> categoriesId) {
         var user = (User) session.getAttribute("user");
         task.setUser(user);
+        task.getCategories().addAll(categoryService.findAllById(categoriesId));
         taskService.create(task);
         return "redirect:/tasks";
     }
@@ -49,6 +54,7 @@ public class TaskController {
     @GetMapping("/create")
     public String getCreationPage(Model model) {
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "tasks/create";
     }
 
@@ -62,11 +68,16 @@ public class TaskController {
     public String getEditPage(@PathVariable int id, Model model) {
         var task = taskService.findById(id).get();
         model.addAttribute("task", task);
+        model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "tasks/update";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task) {
+    public String update(@ModelAttribute Task task, HttpSession session, @RequestParam List<Integer> categoriesId) {
+        var user = (User) session.getAttribute("user");
+        task.setUser(user);
+        task.getCategories().addAll(categoryService.findAllById(categoriesId));
         taskService.update(task);
         return "redirect:/tasks";
     }

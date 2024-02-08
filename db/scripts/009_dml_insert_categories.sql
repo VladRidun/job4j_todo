@@ -1,0 +1,1 @@
+INSERT INTO categories (name) VALUES ('Низкий приоритет'), ('Средний приоритет'), ('Важно');

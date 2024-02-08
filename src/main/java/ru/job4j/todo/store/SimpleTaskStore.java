@@ -51,7 +51,7 @@ public class SimpleTaskStore implements TaskStore {
      * @return список задач.
      */
     public List<Task> findAllOrderById() {
-        return crudRepository.query("from Task t JOIN FETCH t.priority order by t.id", Task.class);
+        return crudRepository.query("select distinct t from Task t JOIN FETCH t.priority JOIN FETCH t.categories order by t.id", Task.class);
     }
 
     /**
