@@ -17,7 +17,8 @@ import java.util.List;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static ru.job4j.todo.utility.TimeZoneWrapper.timeZoneWrap;
+import static ru.job4j.todo.utility.TimeZoneUtil.timeZoneWrap;
+
 
 @Controller
 @AllArgsConstructor

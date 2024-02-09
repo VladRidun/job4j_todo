@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.TimeZone;
 
+import static ru.job4j.todo.utility.TimeZoneUtil.getTimeZones;
+import static ru.job4j.todo.utility.TimeZoneUtil.timeZoneWrap;
 
 @Controller
 @RequestMapping("/users")
@@ -26,7 +28,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String getRegistationPage(Model model) {
-        model.addAttribute("timeZones", userService.getTimeZones());
+        model.addAttribute("timeZones", getTimeZones());
         model.addAttribute("zoneDefault", TimeZone.getDefault().getID());
         return "users/register";
     }

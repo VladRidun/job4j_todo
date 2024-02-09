@@ -24,9 +24,4 @@ public class SimpleUserService implements UserService {
     public Optional<User> findByLoginAndPassword(String email, String password) {
         return userStore.findByLoginAndPassword(email, password);
     }
-
-    @Override
-    public Collection<TimeZone> getTimeZones() {
-        return userStore.getTimeZones();
-    }
 }

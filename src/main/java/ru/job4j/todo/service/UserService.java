@@ -10,6 +10,4 @@ public interface UserService {
     Optional<User> save(User user);
 
     Optional<User> findByLoginAndPassword(String email, String password);
-
-    Collection<TimeZone> getTimeZones();
 }

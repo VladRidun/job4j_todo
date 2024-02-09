@@ -24,9 +24,4 @@ public class SimpleUserStore implements UserStore {
                     "FROM User WHERE login = :fLogin AND password = :fPassword", User.class,
                     Map.of("fLogin", login, "fPassword", password));
     }
-
-    @Override
-    public Collection<TimeZone> getTimeZones() {
-        return Arrays.stream(TimeZone.getAvailableIDs()).map(TimeZone::getTimeZone).collect(Collectors.toList());
-    }
 }
