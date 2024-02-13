@@ -32,6 +32,10 @@ public class TaskController {
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id, HttpServletRequest request) {
         var taskOptional = taskService.findById(id);
+        if (taskOptional.isEmpty()) {
+            model.addAttribute("message", "Задание не найдено");
+            return "errors/404";
+        }
         model.addAttribute("task", taskOptional.get());
         var session = request.getSession();
         session.setAttribute("task", taskOptional.get());
@@ -69,8 +73,12 @@ public class TaskController {
 
     @GetMapping("/edit/{id}")
     public String getEditPage(@PathVariable int id, Model model) {
-        var task = taskService.findById(id).get();
-        model.addAttribute("task", task);
+        var taskOptional = taskService.findById(id);
+        if (taskOptional.isEmpty()) {
+            model.addAttribute("message", "Задание не найдено");
+            return "errors/404";
+        }
+        model.addAttribute("task", taskOptional.get());
         model.addAttribute("priorities", priorityService.findAll());
         model.addAttribute("categories", categoryService.findAll());
         return "tasks/update";
@@ -100,9 +108,14 @@ public class TaskController {
     }
 
     @GetMapping("/done/{id}")
-    public String getPageTaskIsDone(@PathVariable int id) {
-        var task = taskService.findById(id).get();
-        task.setDone(TRUE);
+    public String getPageTaskIsDone(Model model, @PathVariable int id) {
+        var taskOptional = taskService.findById(id);
+        if (taskOptional.isEmpty()) {
+            model.addAttribute("message", "Задание не найдено");
+            return "errors/404";
+        }
+        var task = taskOptional.get();
+        taskOptional.get().setDone(TRUE);
         taskService.update(task);
         return "redirect:/tasks/completed";
     }

@@ -38,7 +38,35 @@ Cоздать и заполнить таблицы БД  "todo";
 
 #### Главная страница WEB-приложения
 
-![](src/main/resources/static/img/)
+![](src/main/resources/static/img/main.png)
+
+#### Страница регистрации на WEB-приложении
+
+![](src/main/resources/static/img/register.png)
+
+#### Страница ошибки ввода почты/пароля
+
+![](src/main/resources/static/img/register_error.png)
+
+#### Страница всех созданных заданий 
+
+![](src/main/resources/static/img/all.png)
+
+#### Страница создания заданий
+
+![](src/main/resources/static/img/create.png)
+
+#### Страница редактирования задания
+
+![](src/main/resources/static/img/edit.png)
+
+#### Страница выполненных заданий
+
+![](src/main/resources/static/img/done.png)
+
+#### Страница новых заданий
+
+![](src/main/resources/static/img/new.png)
 
 
 

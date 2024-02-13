@@ -7,15 +7,12 @@
     <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
 
-    <title th:text="${message}"></title>
+    <title>Ошибка</title>
 </head>
 <body>
 <table border="1">
-    <tr><td>Error Message</td><td th:text="${message}"></td></tr>
-    <tr><td>Status Code</td><td th:text="${status}"></td></tr>
-    <tr><td>Exception</td><td th:text="${exception}"></td></tr>
-    <tr><td>Stacktrace</td><td><pre th:text="${trace}"></pre></td></tr>
-    <tr><td>Binding Errors</td><td th:text="${errors}"></td></tr>
+    <h3 class="mt-3">Произошла следующая ошибка:</h3>
+    <p class="text-danger" th:text="${message}"></p>
 </table>
 </body>
 </html>
